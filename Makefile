@@ -91,10 +91,12 @@ ifndef PORT
 endif
 
 # Version-specific settings
-ifeq "$(ARD_REV)" "0018"
+#   If arduino version is 0018 or higher
+ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/arduino/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/arduino/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cpp
+#   If old or another version
 else
     ARD_BOARDS = $(ARD_HOME)/hardware/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/cores/arduino
