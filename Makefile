@@ -30,15 +30,16 @@
 #
 # ----------
 # BOARD = mega
-# PORT = /dev/term/0
+# PORT = /dev/ttyUSB0
 # INC_DIRS = ../common
 # LIB_DIRS = ../libraries/Task ../../libraries/VirtualWire
-# include ../../Makefile.master
+# include ../arduino-makefile/Makefile
 # ----------
 #
 # Where:
 #   BOARD    : Arduino board type, from $(ARD_HOME)/hardware/boards.txt
-#   PORT     : USB port
+#   PORT     : serial port (or USB-serial);
+#              for Solaris it will be inside /dev/term
 #   INC_DIRS : List pf directories containing header files
 #   LIB_DIRS : List of directories containing library source
 #
@@ -46,7 +47,10 @@
 # your environment, either by editing this file directly or by defining them in
 # the Makefile that includes this one, in which case they will override the
 # definitions below:
-#   ARD_REV      : arduino software revision, e.g. 0017, 0018
+#   ARD_REV      : arduino software revision, e.g. 0017, 0018;
+#                  launch arduino IDE and watch the version in window's header;
+#                  it may be "as is" or with dots -
+#                  for example, if it looks like "1.0.6" it will be 0106.
 #   ARD_HOME     : installation directory of the Arduino software.
 #   ARD_BIN      : location of compiler binaries
 #   AVRDUDE      : location of avrdude executable
@@ -57,10 +61,21 @@
 #
 
 # Global configuration.
-ARD_REV ?= 0018
-ARD_HOME ?= /opt/arduino
+
+# Example for standalone installation of Arduino
+#ARD_REV ?= 0018
+#ARD_HOME ?= /opt/arduino
+#ARD_BIN ?= $(ARD_HOME)/hardware/tools/gcc-avr/bin
+#AVRDUDE ?= $(ARD_HOME)/hardware/tools/avrdude
+#AVRDUDE_CONF ?= $(ARD_HOME)/hardware/tools/avrdude.conf
+#PROGRAMMER ?= arduino
+#MON_SPEED ?= 9600
+
+# For Arduino installed with system's package manager
+ARD_REV ?= 0106
+ARD_HOME ?= /usr/share/arduino
 ARD_BIN ?= $(ARD_HOME)/hardware/tools/gcc-avr/bin
-AVRDUDE ?= $(ARD_HOME)/hardware/tools/avrdude
+AVRDUDE ?= /usr/bin
 AVRDUDE_CONF ?= $(ARD_HOME)/hardware/tools/avrdude.conf
 PROGRAMMER ?= arduino
 MON_SPEED ?= 9600
