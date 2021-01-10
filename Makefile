@@ -1,5 +1,6 @@
 #
 # Copyright 2011 Alan Burlison, alan@bleaklow.com.  All rights reserved.
+# Subsequently modified in 2021 by Aleksandr Solovyov, solovyov-alexander@yandex.ru
 # Use is subject to license terms.
 #
 # Redistribution and use in source and binary forms, with or without
