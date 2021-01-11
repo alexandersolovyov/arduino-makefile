@@ -63,20 +63,20 @@
 
 # Global configuration.
 
-# Example for standalone installation of Arduino
-#ARD_REV ?= 0018
-#ARD_HOME ?= /opt/arduino
-#ARD_BIN ?= $(ARD_HOME)/hardware/tools/gcc-avr/bin
-#AVRDUDE ?= $(ARD_HOME)/hardware/tools/avrdude
-#AVRDUDE_CONF ?= $(ARD_HOME)/hardware/tools/avrdude.conf
-#PROGRAMMER ?= arduino
-#MON_SPEED ?= 9600
+#   Example for standalone installation of Arduino
+# ARD_REV ?= 0018
+# ARD_HOME ?= /opt/arduino
+# ARD_BIN ?= $(ARD_HOME)/hardware/tools/gcc-avr/bin
+# AVRDUDE ?= $(ARD_HOME)/hardware/tools/avrdude
+# AVRDUDE_CONF ?= $(ARD_HOME)/hardware/tools/avrdude.conf
+# PROGRAMMER ?= arduino
+# MON_SPEED ?= 9600
 
 # For Arduino installed with system's package manager
 ARD_REV ?= 0106
 ARD_HOME ?= /usr/share/arduino
-ARD_BIN ?= $(ARD_HOME)/hardware/tools/gcc-avr/bin
-AVRDUDE ?= /usr/bin
+ARD_BIN ?= /usr/bin
+AVRDUDE ?= /usr/bin/avrdude
 AVRDUDE_CONF ?= $(ARD_HOME)/hardware/tools/avrdude.conf
 PROGRAMMER ?= arduino
 MON_SPEED ?= 9600
