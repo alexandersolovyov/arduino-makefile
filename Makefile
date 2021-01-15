@@ -97,6 +97,7 @@ ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/arduino/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/arduino/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cpp
+    ARD_VARIANTS_DIR = $(ARD_HOME)/hardware/arduino/variants
 #   If old or another version
 else
     ARD_BOARDS = $(ARD_HOME)/hardware/boards.txt
@@ -137,6 +138,9 @@ MCU := $(shell sed -n 's/$(BOARD)\.build\.mcu=\(.*\)/\1/p' < $(ARD_BOARDS))
 F_CPU := $(shell sed -n 's/$(BOARD)\.build\.f_cpu=\(.*\)/\1/p' < $(ARD_BOARDS))
 UPLOAD_SPEED := \
     $(shell sed -n 's/$(BOARD)\.upload\.speed=\(.*\)/\1/p' < $(ARD_BOARDS))
+# board variant
+VARIANT := \
+    $(shell sed -n 's/$(BOARD)\.build\.variant=\(.*\)/\1/p' < $(ARD_BOARDS))
 
 # Build tools.
 CC = $(ARD_BIN)/avr-gcc
@@ -154,6 +158,9 @@ MV = mv -f
 # Compiler flags.
 INC_FLAGS = \
     $(addprefix -I,$(INC_DIRS)) $(addprefix -I,$(LIB_DIRS)) -I$(ARD_SRC_DIR)
+ifneq "$(VARIANT)" ""
+    IQUOTE_FLAGS = -iquote$(ARD_VARIANTS_DIR)/$(VARIANT)
+endif
 ARD_FLAGS = -mmcu=$(MCU) -DF_CPU=$(F_CPU) -DARDUINO=$(ARD_REV)
 C_CXX_FLAGS = \
     -Wall -Wextra -Wundef -Werror -Wno-unused-parameter \
@@ -225,6 +232,7 @@ endif
 # Common rule bodies.
 define run-cc
 	$(CC) -c $(C_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) $(INC_FLAGS) \
+	    $(IQUOTE_FLAGS) \
 	    -MD -MT '$@($%)' -MF $(@D)/.$(@F)_$*.dep $< -o $(BUILD_DIR)/$%
 	@ $(AR) rc $@ $(BUILD_DIR)/$%
 	@ $(RM) $(BUILD_DIR)/$%
@@ -234,12 +242,19 @@ endef
 
 define run-cxx
 	$(CXX) -c $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) $(INC_FLAGS) \
+	    $(IQUOTE_FLAGS) \
 	    -MD -MT '$@($%)' -MF $(@D)/.$(@F)_$*.dep $< -o $(BUILD_DIR)/$%
 	@ $(AR) rc $@ $(BUILD_DIR)/$%
 	@ $(RM) $(BUILD_DIR)/$%
 	@ $(CXXFILT) < $(BUILD_DIR)/$*.lst > $(BUILD_DIR)/$*.lst.tmp
 	@ $(MV) $(BUILD_DIR)/$*.lst.tmp $(BUILD_DIR)/$*.lst
 endef
+
+# DEBUG!!!
+$(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PDE_OBJ)
+$(info 'ARD_AR_OBJ == $(ARD_AR_OBJ)')
+$(info 'LIB_AR_OBJ == $(LIB_AR_OBJ)')
+$(info 'SKT_AR_OBJ == $(SKT_AR_OBJ)')
 
 # Rules.
 .PHONY : all clean upload monitor upload_monitor
@@ -280,6 +295,7 @@ $(BUILD_DIR)/%.d : %.cpp
 
 # The multiple "-lm" flags are to work around a linker bug.
 $(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PDE_OBJ)
+	$(info 'ARD_AR_OBJ == $(ARD_AR_OBJ)')
 	$(CC) -lm $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) -L$(BUILD_DIR) \
 	    $(SKT_PDE_OBJ) $(SKT_LD_FLAG) $(LIB_LD_FLAG) $(ARD_LD_FLAG) \
 	    -lm -o $(IMAGE).elf
