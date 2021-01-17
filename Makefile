@@ -167,7 +167,8 @@ C_CXX_FLAGS = \
     -fdiagnostics-show-option -g -Wa,-adhlns=$(BUILD_DIR)/$*.lst \
     $(EXTRA_FLAGS)
 C_FLAGS = \
-    -std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration $(C_CXX_FLAGS)
+#    -std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration $(C_CXX_FLAGS)
+    -std=gnu99 -Wno-old-style-declaration $(C_CXX_FLAGS)
 CXX_FLAGS = \
     $(C_CXX_FLAGS)
 
@@ -250,12 +251,6 @@ define run-cxx
 	@ $(MV) $(BUILD_DIR)/$*.lst.tmp $(BUILD_DIR)/$*.lst
 endef
 
-# DEBUG!!!
-$(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PDE_OBJ)
-$(info 'ARD_AR_OBJ == $(ARD_AR_OBJ)')
-$(info 'LIB_AR_OBJ == $(LIB_AR_OBJ)')
-$(info 'SKT_AR_OBJ == $(SKT_AR_OBJ)')
-
 # Rules.
 .PHONY : all clean upload monitor upload_monitor
 
@@ -295,7 +290,6 @@ $(BUILD_DIR)/%.d : %.cpp
 
 # The multiple "-lm" flags are to work around a linker bug.
 $(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PDE_OBJ)
-	$(info 'ARD_AR_OBJ == $(ARD_AR_OBJ)')
 	$(CC) -lm $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) -L$(BUILD_DIR) \
 	    $(SKT_PDE_OBJ) $(SKT_LD_FLAG) $(LIB_LD_FLAG) $(ARD_LD_FLAG) \
 	    -lm -o $(IMAGE).elf
