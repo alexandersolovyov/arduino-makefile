@@ -167,8 +167,8 @@ C_CXX_FLAGS = \
     -fdiagnostics-show-option -g -Wa,-adhlns=$(BUILD_DIR)/$*.lst \
     $(EXTRA_FLAGS)
 C_FLAGS = \
-#    -std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration $(C_CXX_FLAGS)
     -std=gnu99 -Wno-old-style-declaration $(C_CXX_FLAGS)
+#    -std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration $(C_CXX_FLAGS)
 CXX_FLAGS = \
     $(C_CXX_FLAGS)
 
