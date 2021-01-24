@@ -170,7 +170,8 @@ C_FLAGS = \
     -std=gnu99 -Wno-old-style-declaration $(C_CXX_FLAGS)
 #    -std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration $(C_CXX_FLAGS)
 CXX_FLAGS = \
-    $(C_CXX_FLAGS)
+    -Wno-error=strict-aliasing -Wno-error=write-strings -Wno-error=type-limits \
+    -Wno-error=sign-compare -Wno-unused-variable $(C_CXX_FLAGS)
 
 # Optimiser flags.
 #     optimise for size, unsigned by default, pack data.
