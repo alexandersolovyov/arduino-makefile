@@ -154,6 +154,7 @@ NM = $(ARD_BIN)/avr-nm
 MKDIR = mkdir -p
 RM = rm -rf
 MV = mv -f
+ECHO = echo
 
 # Compiler flags.
 INC_FLAGS = \
@@ -233,6 +234,8 @@ endif
 
 # Common rule bodies.
 define run-cc
+	@ $(ECHO) ""
+	@ $(ECHO) Compiling target $@
 	$(CC) -c $(C_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) $(INC_FLAGS) \
 	    $(IQUOTE_FLAGS) \
 	    -MD -MT '$@($%)' -MF $(@D)/.$(@F)_$*.dep $< -o $(BUILD_DIR)/$%
@@ -243,6 +246,8 @@ define run-cc
 endef
 
 define run-cxx
+	@ $(ECHO) ""
+	@ $(ECHO) Compiling target $@
 	$(CXX) -c $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) $(INC_FLAGS) \
 	    $(IQUOTE_FLAGS) \
 	    -MD -MT '$@($%)' -MF $(@D)/.$(@F)_$*.dep $< -o $(BUILD_DIR)/$%
