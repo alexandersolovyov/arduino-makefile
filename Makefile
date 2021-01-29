@@ -41,7 +41,8 @@
 #   BOARD    : Arduino board type, from $(ARD_HOME)/hardware/boards.txt
 #   PORT     : serial port (or USB-serial);
 #              for Solaris it will be inside /dev/term
-#   INC_DIRS : List pf directories containing header files
+#   INC_DIRS : List of directories containing common or additional header files
+#              (optional)
 #   LIB_DIRS : List of directories containing library source
 #
 # Before using this Makefile you can adjust the following macros to suit
