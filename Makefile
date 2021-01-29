@@ -33,7 +33,7 @@
 # BOARD = mega
 # PORT = /dev/ttyUSB0
 # INC_DIRS = ../common
-# LIB_DIRS = ../libraries/Task ../../libraries/VirtualWire
+# LIB_DIRS = $(ARD_HOME)/libraries/SPI ../libraries/Task ../../libraries/VirtualWire
 # include ../arduino-makefile/Makefile
 # ----------
 #
@@ -43,7 +43,14 @@
 #              for Solaris it will be inside /dev/term
 #   INC_DIRS : List of directories containing common or additional header files
 #              (optional)
-#   LIB_DIRS : List of directories containing library source
+#   LIB_DIRS : Full list of directories containing library source;
+#              here must be paths to ALL libraries:
+#              - libraries inside Your sketches folder;
+#              - if You get error about missing header files, maybe You need to
+#                add some libraries shipped with arduino:
+#                search for them in "libraries" folder inside arduino installation
+#                directory, use $(ARD_HOME) variable as shown in example above
+#                
 #
 # Before using this Makefile you can adjust the following macros to suit
 # your environment, either by editing this file directly or by defining them in
