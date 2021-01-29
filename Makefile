@@ -50,6 +50,12 @@
 #                add some libraries shipped with arduino:
 #                search for them in "libraries" folder inside arduino installation
 #                directory, use $(ARD_HOME) variable as shown in example above
+#
+# Additional variables also may be set:
+#
+#   EXTRA_C_FLAGS    : any extra flags that should be passed to the C compiller
+#   EXTRA_CXX_FLAGS  : any extra flags that should be passed to the C++ compiler
+#                      (set newer standard etc.)
 #                
 #
 # Before using this Makefile you can adjust the following macros to suit
@@ -60,13 +66,13 @@
 #                  launch arduino IDE and watch the version in window's header;
 #                  it may be "as is" or with dots -
 #                  for example, if it looks like "1.0.6" it will be 0106.
-#   ARD_HOME     : installation directory of the Arduino software.
-#   ARD_BIN      : location of compiler binaries
-#   AVRDUDE      : location of avrdude executable
-#   AVRDUDE_CONF : location of avrdude configuration file
-#   PROGRAMMER   : avrdude programmer type
-#   MON_SPEED    : serial monitor speed
-#   EXTRA_FLAGS  : any extra flags that should be passed to the compilers
+#   ARD_HOME         : installation directory of the Arduino software.
+#   ARD_BIN          : location of compiler binaries
+#   AVRDUDE          : location of avrdude executable
+#   AVRDUDE_CONF     : location of avrdude configuration file
+#   PROGRAMMER       : avrdude programmer type
+#   MON_SPEED        : serial monitor speed
+#   EXTRA_FLAGS      : any extra flags that should be passed to the compilers
 #
 
 # Global configuration.
@@ -176,11 +182,11 @@ C_CXX_FLAGS = \
     -fdiagnostics-show-option -g -Wa,-adhlns=$(BUILD_DIR)/$*.lst \
     $(EXTRA_FLAGS)
 C_FLAGS = \
-    -std=gnu99 -Wno-old-style-declaration $(C_CXX_FLAGS)
+    -std=gnu99 -Wno-old-style-declaration $(C_CXX_FLAGS) $(EXTRA_C_FLAGS)
 #    -std=gnu99 -Wstrict-prototypes -Wno-old-style-declaration $(C_CXX_FLAGS)
 CXX_FLAGS = \
     -Wno-error=strict-aliasing -Wno-error=write-strings -Wno-error=type-limits \
-    -Wno-sign-compare -Wno-unused-variable $(C_CXX_FLAGS)
+    -Wno-sign-compare -Wno-unused-variable $(C_CXX_FLAGS) $(EXTRA_CXX_FLAGS)
 
 # Optimiser flags.
 #     optimise for size, unsigned by default, pack data.
