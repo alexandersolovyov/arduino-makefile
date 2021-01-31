@@ -105,18 +105,21 @@ ifndef PORT
     $(error $$(PORT) not defined)
 endif
 
-# Version-specific settings
-#   If arduino version is 0018 or higher
+# Version-specific settings (incremental changes)
+#  version < 0018
+ifeq ($(shell test $(ARD_REV) -lt "0018"; echo $$?), 0)
+    ARD_BOARDS = $(ARD_HOME)/hardware/boards.txt
+    ARD_SRC_DIR = $(ARD_HOME)/hardware/cores/arduino
+    ARD_MAIN = $(ARD_SRC_DIR)/main.cxx
+#  version >= 0018
 ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/arduino/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/arduino/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cpp
+#  version >= 0022
+ifeq ($(shell test $(ARD_REV) -ge "0022"; echo $$?), 0)
+#  maybe need to change version from which these variables are needed:
     ARD_VARIANTS_DIR = $(ARD_HOME)/hardware/arduino/variants
-#   If old or another version
-else
-    ARD_BOARDS = $(ARD_HOME)/hardware/boards.txt
-    ARD_SRC_DIR = $(ARD_HOME)/hardware/cores/arduino
-    ARD_MAIN = $(ARD_SRC_DIR)/main.cxx
 endif
 
 # Platform-specific settings.
