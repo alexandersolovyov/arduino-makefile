@@ -238,6 +238,9 @@ endif
 
 # Sketch project file source (must be set in version-specific settings).
 # SKT_PROJECT_SRC = *.ino or *.pde
+$(info ---------------------------------------)
+$(info Make project $(SKT_PROJECT_SRC))
+$(info ---------------------------------------)
 ifneq "$(strip $(SKT_PROJECT_SRC))" ""
 	SKT_PROJECT_OBJ = $(BUILD_DIR)/$(SKETCH)_pde.o
 else
