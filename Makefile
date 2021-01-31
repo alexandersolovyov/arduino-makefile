@@ -292,9 +292,9 @@ define run-cxx
 endef
 
 # Rules.
-.PHONY : all clean upload monitor upload_monitor
+.PHONY : compile clean upload monitor upload_monitor
 
-all : $(BUILD_DIR) $(IMAGE).hex
+compile : $(BUILD_DIR) $(IMAGE).hex
 
 clean :
 	$(RM) $(BUILD_DIR)
@@ -348,7 +348,7 @@ $(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PROJECT_OBJ)
 	$(OBJDUMP) -h -S $(IMAGE).elf | $(CXXFILT) -t > $(IMAGE).lst
 	$(SIZE) $(IMAGE).elf
 
-upload : all
+upload : compile
 	$(kill-monitor)
 	- $(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
 	    -b$(UPLOAD_SPEED) -D -Uflash:w:$(IMAGE).hex:i
