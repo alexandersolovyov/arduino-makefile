@@ -303,6 +303,9 @@ $(BUILD_DIR) :
 	$(MKDIR) $@
 
 $(SKT_PROJECT_OBJ) : $(SKT_PROJECT_SRC)
+	@ $(ECHO) ""
+	@ $(ECHO) "Building project's object file $@:"
+	@ $(ECHO) ""
 	echo '#include <$(ARD_MAIN_HEADER)>' > $(BUILD_DIR)/$(SKETCH)_project.cpp
 	cat $(SKT_PROJECT_SRC) >> $(BUILD_DIR)/$(SKETCH)_project.cpp
 	cd $(BUILD_DIR) && $(CXX) -c $(subst build/,,$(CXX_FLAGS)) \
