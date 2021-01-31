@@ -308,6 +308,7 @@ $(SKT_PROJECT_OBJ) : $(SKT_PROJECT_SRC)
 	cd $(BUILD_DIR) && $(CXX) -c $(subst build/,,$(CXX_FLAGS)) \
 	    $(OPT_FLAGS) $(ARD_FLAGS) -I.. \
 	    $(patsubst -I..%,-I../..%,$(INC_FLAGS)) \
+	    $(IQUOTE_FLAGS) \
 	    $(SKETCH)_project.cpp -o $(@F)
 
 (%.o) : $(ARD_SRC_DIR)/%.c
