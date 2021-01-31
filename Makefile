@@ -70,7 +70,10 @@
 #   ARD_BIN          : location of compiler binaries
 #   AVRDUDE          : location of avrdude executable
 #   AVRDUDE_CONF     : location of avrdude configuration file
-#   PROGRAMMER       : avrdude programmer type
+#   PROGRAMMER       : avrdude programmer type:
+#                      use "arduino" to program via bootloader,
+#                      or use command `avrdude -c?` to see full list of programmers,
+#                      or see man page for avrdude
 #   MON_SPEED        : serial monitor speed
 #   EXTRA_FLAGS      : any extra flags that should be passed to the compilers
 #
