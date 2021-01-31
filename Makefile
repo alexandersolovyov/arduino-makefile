@@ -144,6 +144,9 @@ ifeq "$(PLATFORM)" "SunOS"
     endef
 else ifeq "$(PLATFORM)" "Linux"
     define run-monitor
+        @ $(ECHO) "Inside terminal:"
+        @ $(ECHO) "use '<Ctrl-a> \' to exit from it,"
+        @ $(ECHO) "use '<Ctrl-a> ?' to show help."
 	screen $(PORT) $(MON_SPEED)
     endef
     define kill-monitor
