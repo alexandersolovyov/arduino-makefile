@@ -111,6 +111,7 @@ ifeq ($(shell test $(ARD_REV) -lt "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cxx
+    SKT_PROJECT_SRC := $(firstword $(wildcard *.pde))
 #  version >= 0018
 ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/arduino/boards.txt
@@ -120,6 +121,10 @@ ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
 ifeq ($(shell test $(ARD_REV) -ge "0022"; echo $$?), 0)
 #  maybe need to change version from which these variables are needed:
     ARD_VARIANTS_DIR = $(ARD_HOME)/hardware/arduino/variants
+#  version >= 0100
+ifeq ($(shell test $(ARD_REV) -ge "0100"; echo $$?), 0)
+    # project file became *.ino, but *.pde is also supported
+    SKT_PROJECT_SRC := $(firstword $(wildcard *.ino) $(SKT_PROJECT_SRC))
 endif
 
 # Platform-specific settings.
@@ -231,10 +236,14 @@ ifneq "$(strip $(LIB_C_SRC) $(LIB_CXX_SRC))" ""
 	LIB_LD_FLAG = -l$(LIB_LIB)
 endif
 
-# Sketch PDE source.
-SKT_PDE_SRC = $(wildcard *.pde)
-ifneq "$(strip $(SKT_PDE_SRC))" ""
-	SKT_PDE_OBJ = $(BUILD_DIR)/$(SKETCH)_pde.o
+# Sketch project file source (must be set in version-specific settings).
+# SKT_PROJECT_SRC = *.ino or *.pde
+ifneq "$(strip $(SKT_PROJECT_SRC))" ""
+	SKT_PROJECT_OBJ = $(BUILD_DIR)/$(SKETCH)_pde.o
+else
+    $(error There is no source file or its extension is unsupported)
+    $(error (try to change .ino extension to .pde if You are using Arduino older than 0100))
+    $(error Compilation will fail!)
 endif
 
 # C and C++ source.
@@ -285,9 +294,9 @@ clean :
 $(BUILD_DIR) :
 	$(MKDIR) $@
 
-$(SKT_PDE_OBJ) : $(SKT_PDE_SRC)
+$(SKT_PROJECT_OBJ) : $(SKT_PROJECT_SRC)
 	echo '#include <WProgram.h>' > $(BUILD_DIR)/$(SKETCH)_pde.cpp
-	cat $(SKT_PDE_SRC) >> $(BUILD_DIR)/$(SKETCH)_pde.cpp
+	cat $(SKT_PROJECT_SRC) >> $(BUILD_DIR)/$(SKETCH)_pde.cpp
 	cd $(BUILD_DIR) && $(CXX) -c $(subst build/,,$(CXX_FLAGS)) \
 	    $(OPT_FLAGS) $(ARD_FLAGS) -I.. \
 	    $(patsubst -I..%,-I../..%,$(INC_FLAGS)) \
@@ -312,9 +321,9 @@ $(BUILD_DIR)/%.d : %.cpp
 	$(run-cxx-d)
 
 # The multiple "-lm" flags are to work around a linker bug.
-$(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PDE_OBJ)
+$(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PROJECT_OBJ)
 	$(CC) -lm $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) -L$(BUILD_DIR) \
-	    $(SKT_PDE_OBJ) $(SKT_LD_FLAG) $(LIB_LD_FLAG) $(ARD_LD_FLAG) \
+	    $(SKT_PROJECT_OBJ) $(SKT_LD_FLAG) $(LIB_LD_FLAG) $(ARD_LD_FLAG) \
 	    -lm -o $(IMAGE).elf
 	$(OBJCOPY) -O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load \
 	    --no-change-warnings --change-section-lma .eeprom=0 $(IMAGE).elf \
