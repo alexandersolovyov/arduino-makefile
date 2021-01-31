@@ -112,15 +112,18 @@ ifeq ($(shell test $(ARD_REV) -lt "0018"; echo $$?), 0)
     ARD_SRC_DIR = $(ARD_HOME)/hardware/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cxx
     SKT_PROJECT_SRC := $(firstword $(wildcard *.pde))
+endif
 #  version >= 0018
 ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/arduino/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/arduino/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cpp
+endif
 #  version >= 0022
 ifeq ($(shell test $(ARD_REV) -ge "0022"; echo $$?), 0)
 #  maybe need to change version from which these variables are needed:
     ARD_VARIANTS_DIR = $(ARD_HOME)/hardware/arduino/variants
+endif
 #  version >= 0100
 ifeq ($(shell test $(ARD_REV) -ge "0100"; echo $$?), 0)
     # project file became *.ino, but *.pde is also supported
