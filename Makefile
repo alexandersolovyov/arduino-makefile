@@ -112,6 +112,7 @@ ifeq ($(shell test $(ARD_REV) -lt "0018"; echo $$?), 0)
     ARD_SRC_DIR = $(ARD_HOME)/hardware/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cxx
     SKT_PROJECT_SRC := $(firstword $(wildcard *.pde))
+    ARD_MAIN_HEADER = WProgram.h
 endif
 #  version >= 0018
 ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
@@ -121,6 +122,7 @@ ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
 endif
 #  version >= 0022
 ifeq ($(shell test $(ARD_REV) -ge "0022"; echo $$?), 0)
+    ARD_MAIN_HEADER = Arduino.h
 #  maybe need to change version from which these variables are needed:
     ARD_VARIANTS_DIR = $(ARD_HOME)/hardware/arduino/variants
 endif
@@ -245,7 +247,7 @@ $(info ---------------------------------------)
 $(info Make project $(SKT_PROJECT_SRC))
 $(info ---------------------------------------)
 ifneq "$(strip $(SKT_PROJECT_SRC))" ""
-	SKT_PROJECT_OBJ = $(BUILD_DIR)/$(SKETCH)_pde.o
+	SKT_PROJECT_OBJ = $(BUILD_DIR)/$(SKETCH)_project.o
 else
     $(error There is no source file or its extension is unsupported)
     $(error (try to change .ino extension to .pde if You are using Arduino older than 0100))
@@ -301,12 +303,12 @@ $(BUILD_DIR) :
 	$(MKDIR) $@
 
 $(SKT_PROJECT_OBJ) : $(SKT_PROJECT_SRC)
-	echo '#include <WProgram.h>' > $(BUILD_DIR)/$(SKETCH)_pde.cpp
-	cat $(SKT_PROJECT_SRC) >> $(BUILD_DIR)/$(SKETCH)_pde.cpp
+	echo '#include <$(ARD_MAIN_HEADER)>' > $(BUILD_DIR)/$(SKETCH)_project.cpp
+	cat $(SKT_PROJECT_SRC) >> $(BUILD_DIR)/$(SKETCH)_project.cpp
 	cd $(BUILD_DIR) && $(CXX) -c $(subst build/,,$(CXX_FLAGS)) \
 	    $(OPT_FLAGS) $(ARD_FLAGS) -I.. \
 	    $(patsubst -I..%,-I../..%,$(INC_FLAGS)) \
-	    $(SKETCH)_pde.cpp -o $(@F)
+	    $(SKETCH)_project.cpp -o $(@F)
 
 (%.o) : $(ARD_SRC_DIR)/%.c
 	$(run-cc)
