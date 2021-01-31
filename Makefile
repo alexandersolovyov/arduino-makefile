@@ -269,7 +269,7 @@ endif
 # Common rule bodies.
 define run-cc
 	@ $(ECHO) ""
-	@ $(ECHO) Compiling target $@
+	@ $(ECHO) "Compiling target $@"
 	$(CC) -c $(C_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) $(INC_FLAGS) \
 	    $(IQUOTE_FLAGS) \
 	    -MD -MT '$@($%)' -MF $(@D)/.$(@F)_$*.dep $< -o $(BUILD_DIR)/$%
@@ -281,7 +281,7 @@ endef
 
 define run-cxx
 	@ $(ECHO) ""
-	@ $(ECHO) Compiling target $@
+	@ $(ECHO) "Compiling target $@"
 	$(CXX) -c $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) $(INC_FLAGS) \
 	    $(IQUOTE_FLAGS) \
 	    -MD -MT '$@($%)' -MF $(@D)/.$(@F)_$*.dep $< -o $(BUILD_DIR)/$%
@@ -295,8 +295,13 @@ endef
 .PHONY : compile clean upload monitor upload_monitor
 
 compile : $(BUILD_DIR) $(IMAGE).hex
+	@ $(ECHO) ""
+	@ $(ECHO) "Project is compiled successfuly!"
+	@ $(ECHO) ""
 
 clean :
+	@ $(ECHO) "Cleaning up..."
+	@ $(ECHO) ""
 	$(RM) $(BUILD_DIR)
 
 $(BUILD_DIR) :
@@ -349,11 +354,16 @@ $(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PROJECT_OBJ)
 	$(SIZE) $(IMAGE).elf
 
 upload : compile
+	@ $(ECHO) ""
+	@ $(ECHO) "Writing project to the device..."
+	@ $(ECHO) ""
 	$(kill-monitor)
 	- $(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
 	    -b$(UPLOAD_SPEED) -D -Uflash:w:$(IMAGE).hex:i
 
 monitor :
+	@ $(ECHO) "Starting port monitor..."
+	@ $(ECHO) ""
 	$(kill-monitor)
 	$(run-monitor)
 
