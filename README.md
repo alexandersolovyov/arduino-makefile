@@ -34,7 +34,7 @@ Note about Operating Systems
 Original file was created mainly to work on Solaris OS, and here it is reworked
 to work best under Linux.
 
-I did not do any efforts to make it work for Windows,
+I did not make any efforts to get it work for Windows,
 but I beleave this would not be very hard. If You want to use this makefile
 under Windows, You will definitely need MinGW and maybe make some changes in
 makefile. You can help to add full support for Windows, if You wish.
