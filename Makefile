@@ -91,7 +91,7 @@ ARD_REV ?= 0106
 ARD_HOME ?= /usr/share/arduino
 ARD_BIN ?= /usr/bin
 AVRDUDE ?= /usr/bin/avrdude
-AVRDUDE_CONF ?= $(ARD_HOME)/hardware/tools/avrdude.conf
+AVRDUDE_CONF ?= /etc/avrdude/avrdude.conf
 PROGRAMMER ?= arduino
 MON_SPEED ?= 9600
 
