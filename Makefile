@@ -335,6 +335,9 @@ $(BUILD_DIR)/%.d : %.cpp
 
 # The multiple "-lm" flags are to work around a linker bug.
 $(IMAGE).hex : $(ARD_AR_OBJ) $(LIB_AR_OBJ) $(SKT_AR_OBJ) $(SKT_PROJECT_OBJ)
+	@ $(ECHO) ""
+	@ $(ECHO) "Building project file $@:"
+	@ $(ECHO) ""
 	$(CC) -lm $(CXX_FLAGS) $(OPT_FLAGS) $(ARD_FLAGS) -L$(BUILD_DIR) \
 	    $(SKT_PROJECT_OBJ) $(SKT_LD_FLAG) $(LIB_LD_FLAG) $(ARD_LD_FLAG) \
 	    -lm -o $(IMAGE).elf
