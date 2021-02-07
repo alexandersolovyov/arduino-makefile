@@ -60,20 +60,21 @@ Then You have these options:
 - If You do not plan to make changes in this makefile and use GIT for committing
   that changes, You can simply create file "Makefile.master" at the root folder
   of Your Arduino projects (sketches) and copy contents of the makefile into it.
-- If You don't like ".master" extension because it confuses Your textual editor
-  or IDE, do like in previous case but name this master-makefile in another
-  way, maybe just "Makefile".
-- If You plan to change this makefile and use GIT to commit changes,
-  clone this repository into the root of Your Arduino projects (by default, on
-  Linux it is `~/sketches`). For example, go into that folder and do
+- If You don't like ".master" extension, maybe because it confuses Your textual
+  editor or IDE, do like in previous case but name this master-makefile in
+  another way, maybe just "Makefile" or "Makefile-master".
+- If You plan to change this makefile and use GIT to commit changes or want to
+  get the file in the easiest way, clone this repository into the root of Your
+  Arduino projects (by default, on Linux it is `~/sketches`). For example, go
+  into that folder and do
 
 ```bash
 git clone https://github.com/alexandersolovyov/arduino-makefile.git
 ```
 
 This will be the main Makefile for all of Your Arduino projects. Each project
-will have its own, more simple makefile, to the end of which this main makefile
-must be included.
+will have its own, more simple makefile. This main makefile must be included to
+the end of each project-specific makefile.
 
 ### 3. Edit the makefile to fit Your environment
 
