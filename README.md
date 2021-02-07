@@ -75,11 +75,47 @@ This will be the main Makefile for all of Your Arduino projects. Each project
 will have its own, more simple makefile, to the end of which this main makefile
 must be included.
 
-### 3. Edit the makefile to fit for Your environment
+### 3. Edit the makefile to fit Your environment
 
-Change global configuration variables in this main makefile to that fitting to
-Your Arduino installation and avrdude programmer settings. Comments in the file
-will guide You.
+Change global configuration variables in the main Makefile (downloaded from this
+github repo) accordingly to where You installed Arduino IDE, what version it
+has, what programmer hardware You are using. Here are these variables:
+
+- **ARD_REV** - arduino software revision (or version), e.g. 0017, 0018. When
+  You launch arduino IDE, there is usually a version number in a window header
+  of the program. Elsewise it can be found by choosing "Help -> About" in the
+  menu or program's window. The version number may be given "as is" or with
+  dots - for example, if it looks like "1.0.6" it will be 0106.
+- **ARD_HOME** - installation directory of the Arduino software. If it is
+  installed on Linux by native package manager, it usually will be
+  `/usr/share/arduino` (if not, try command `whereis arduino` and search
+  inside folders that it gives). Other possible place is `/opt/arduino`.
+  In the description of another variables, `$(ARD_HOME)` is the value of
+  `ARD_HOME` variable, and it will expand to arduino installation directory path
+  when `make` executes this master-Makefile and project-specific Makefile.
+- **ARD_BIN** - path to a folder where compiler binaries resides. If Arduino IDE
+  is installed globaly on Linux, usually it will be `/usr/bin` folder. Elsewise
+  it may be inside `$(ARD_HOME)/hardware/tools/avr-gcc` folder.
+- **AVRDUDE** - location of avrdude executable. For native-installed Arduino it is
+  usually `/usr/bin/avrdude`, elsewise it may be
+  `$(ARD_HOME)/hardware/tools/avrdude`.
+- **AVRDUDE_CONF** - location of avrdude configuration file. If You don't want
+  avrdude to use some special settings, look for default configuration file and
+  write here path to it. For "native-installed" arduino the file is usually
+  `/etc/avrdude/avrdude.conf`, in other case it may be
+  `$(ARD_HOME)/hardware/tools/avrdude.conf`, If You want to configure avrdude
+  with Your own configuration file - copy the default configuration file to the
+  root of Your Arduino projects (sketches) or elsewhere, change it for Your
+  needs and assign path to it to this `AVRDUDE_CONF` variable.
+- **PROGRAMMER** - type of programmer hardware You are using - for avrdude
+  programmer. Set to "arduino" to program arduino via on-board USB and
+  bootloader.  If You need to use another arduino as a programmer, it will
+  usually be "stk500v1".  Use command `avrdude -c?` to see full list of
+  programmers, or see man page for avrdude.
+- **MON_SPEED** - serial monitor speed - baudrate at which serial port will work
+  when `make monitor` command  opens terminal window to monitor port's output.
+- **EXTRA_FLAGS** - any extra flags that should be passed to the compilers (both
+  C and C++). This variable can be omitted.
 
 Setup for various IDEs
 ----------------------
