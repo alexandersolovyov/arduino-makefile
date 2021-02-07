@@ -3,7 +3,9 @@ Master Makefile for Arduino projects
 ====================================
 
 This is a very simple main makefile to use with GNU Make utility for compiling
-Your Arduino projects without the Arduino IDE.
+Your Arduino projects without the Arduino IDE. Using this file does not affect
+the way Arduino project is written, so it may be used in parallel with Arduino
+IDE.
 
 There are also some more complete (and more complex) make systems for Arduino, such as
 [Arduino-Makefile](https://github.com/sudar/Arduino-Makefile). You may find it
