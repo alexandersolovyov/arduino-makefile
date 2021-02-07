@@ -25,14 +25,24 @@ What is this all needed for
 
 Original Arduino IDE is easy to use for beginners, but after some time people
 realize that its functionality is poor. They would prefer to code for Arduino
-with another IDEs, such as Eclipse, NetBeans or even Vim. With this makefile 
-You can (almost) easily set up Your favorite environment to code for Arduino.
+with another IDEs or advanced textual editors, such as Eclipse IDE, Notepad++,
+or Vim. This makefile can help You to more easily set up Your favorite
+environment to code for Arduino.
+
+Another case is when Arduino IDE installed with system's package manager is a
+littlebit buggy and needs to many efforts to make it work properly. This
+makefile is usually very easy to install.
+
+Although in fact, You maybe don't need this makefile under Windows: many Windows
+users prefer to use Arduino IDE, and there is VSCode IDE which already has
+plugins to work with Arduino.
+
 
 Note about Operating Systems
 ----------------------------
 
 Original file was created mainly to work on Solaris OS, and here it is reworked
-to work best under Linux.
+to work best under Linux. This readme file is also mostly Linux-oriented.
 
 I did not make any efforts to get it work for Windows,
 but I beleave this would not be very hard. If You want to use this makefile
