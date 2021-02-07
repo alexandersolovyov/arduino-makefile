@@ -172,16 +172,78 @@ where "dialout" must be substituted with right name of the group and
 After changing the group You need to reboot the computer or exit and enter into
 the system.
 
-Setup for various IDEs
+Setup Arduino project
 ----------------------
 
-I use Vim and there is nothing to write about: people uses it in many different
-ways. If You use it, You most likely know how to set up build commands for Your
-favorite keyboard shortcuts. See "Usage" section below for description of that
-commands.
+To use the master Makefile, just add a new file with name `Makefile` into Your
+project along with a sketch file (*.ino). This file must contain such
+information - for example:
 
-Not tried to use with other IDEs yet, so it would be great if somebody help me
-to fulfill this section.
+```Makefile
+BOARD = mega
+PORT = /dev/ttyUSB0
+INC_DIRS = ../common
+LIB_DIRS = $(ARD_HOME)/libraries/SPI ../libraries/Task ../libraries/VirtualWire
+
+include ../arduino-makefile/Makefile
+```
+
+Last line must contain a relative or absolute path to the main Makefile after
+the kewyord `include`. Above it the folowing settings variables must be given.
+
+- **BOARD** - Arduino board type. You may get the list of available board names
+  in the `boards.txt` file (usually located at
+  `$(ARD_HOME)/hardware/arduino/boards.txt`). Use shell command
+  `cat boards.txt | grep name` to retreive right name. See the first word of
+  each output line, before first dot - that will be the right word to set up
+  this variable. For example, to select Arduino nano with ATMega328, see the
+  line `nano328.name=Arduino Nano w/ ATmega328`. The right value for a variable
+  will be `nano328`
+- **PORT** - serial port (or USB-serial). How to determine the right port - see
+  above, last subsection of "Basic setup" section. On Linux, for devices
+  connected via USB it is usually `/dev/ttyUSB0`, for devices connected via
+  hardware serial (COM) port - `/dev/ttyS0`. On Solaris it usually will be one
+  of files located under `/dev/term` directory.
+- **INC_DIRS** - list of directories containing common or additional header files.
+  It's useful if You want to store something in a C++ header file that
+  is common for few projects. This variable should be optional but for now You
+  must to set it to some existant folder (You may create it specially). 
+- **LIB_DIRS** - *full* list of directories containing library sources,
+  separated by spaces.  here must be paths to ALL libraries:
+  - libraries inside Your sketches folder - by the standard for the Arduino IDE
+    they are located in "libraries" folder under sketches root folder. This
+    means that if You want to add some external library, You must:
+    - Go into that folder (for example `~/sketches/libraries`);
+    - Copy external library there or clone it from Github (or other GIT repo);
+    - Add this path to this library to the variable, for example:
+      `LIB_DIRS = ../libraries/arduino-mcp2515/`.
+  - Libraries that are shipped with Arduino, used by Your project and by
+    additional libraries connected to it (from `../libraries` folder).
+    That means that You need to analyze Your project and every file of included
+    libraries and see what Arduino "standard" libraries are included there, or
+    just try to compile and look up on errors about missing header files. Then
+    You must:
+    - Search for Arduino standard libraries location. Usually it is under
+      `$(ARD_HOME)/libraries`.
+    - Select folder containing needed library and add to this variable. For
+      example, add a space and `$(ARD_HOME)/libraries/SofrwareSerial` if You
+      need SoftwareSerial library. (`$(ARD_HOME)` will expand to the variable
+      defined in main Makefile when `make` works.)
+
+Also You can add those additional variables (any or all of them may be omitted):
+
+- **EXTRA_C_FLAGS** - any extra flags that will be passed to the C compiler
+  (only).
+- **EXTRA_CXX_FLAGS** any extra flags that should be passed to the C++ compiler.
+  For example, some libraries loaded from Github may require C++ v11 statdard to
+  compile properly. In that case set this variable to `-std=c++11`.
+
+And also You can set here any variables of master Makefile, described in "Basic
+setup" section. They will override values set in master Makefile. That means
+that You can make any of that settings project-specific.
+
+Just don't forget that master makefile must be included only by the string below
+all of those variable definitions.
 
 Usage
 -----
