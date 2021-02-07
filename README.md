@@ -7,6 +7,9 @@ Your Arduino projects without the Arduino IDE. Using this file does not affect
 the way Arduino project is written, so it may be used in parallel with Arduino
 IDE.
 
+For now, it is tested only with Arduino IDE 0106, but probably will work good
+for all older versions and some newer ones.
+
 There are also some more complete (and more complex) make systems for Arduino, such as
 [Arduino-Makefile](https://github.com/sudar/Arduino-Makefile). You may find it
 better fit to Your needs. Also there are plugins for VS Code IDE to work with

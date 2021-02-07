@@ -77,6 +77,11 @@
 #   MON_SPEED        : serial monitor speed
 #   EXTRA_FLAGS      : any extra flags that should be passed to the compilers
 #
+# --------------------------------------------------------
+# This file is tested with such revisions of Arduino IDE:
+# by Alan Burlison:       0016, 0018
+# by Aleksandr Solovyov:  0106
+# --------------------------------------------------------
 
 # Global configuration.
 
