@@ -7,7 +7,8 @@ Your Arduino projects without the Arduino IDE.
 
 There are also some more complete (and more complex) make systems for Arduino, such as
 [Arduino-Makefile](https://github.com/sudar/Arduino-Makefile). You may find it
-better fit to Your needs.
+better fit to Your needs. Also there are plugins for VS Code IDE to work with
+Arduino.
 
 Current makefile is a reworked version of the file that was written by Alan
 Burlison at 2011.
@@ -127,6 +128,47 @@ has, what programmer hardware You are using. Here are these variables:
   when `make monitor` command  opens terminal window to monitor port's output.
 - **EXTRA_FLAGS** - any extra flags that should be passed to the compilers (both
   C and C++). This variable can be omitted.
+
+### 4. Add Your user to serial port users group
+
+Under Linux, You may have problems when using a serial port to program Arduino
+board or when trying to monitor port's output. To prevent this, add Your user
+account to the group that has access to computer's serial ports.
+
+At first, You need to know what port Your programmer or Arduino board is using.
+To do that, just connect the device to USB and call
+
+```bash
+dmesg | grep tty
+```
+
+and You will see what serial device was connected and what dev file coresponds
+to it. Usually it's in the last output line. If You are using "real" serial
+port imbuilt into the computer, try to use same command but it may be trickier
+to detect what port You are need (try to google how to do it). Oftenly it is
+`/dev/ttyS0` or `/dev/ttyS1`.
+
+Then see the owner group of the file for this port. Use command
+
+```bash
+ls -l /dev/ttyUSB0
+```
+
+where `/dev/ttyUSB0` must be substituted with right file name.
+In output, this group name usually goes after the "root" word ("root" is the
+owner user name). it is oftenly named "dialout".
+
+Then add Your user to this group:
+
+```bash
+sudo usermod -a -G dialout username
+```
+
+where "dialout" must be substituted with right name of the group and
+"username" - with the name of Your user.
+
+After changing the group You need to reboot the computer or exit and enter into
+the system.
 
 Setup for various IDEs
 ----------------------
