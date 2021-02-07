@@ -248,4 +248,35 @@ all of those variable definitions.
 Usage
 -----
 
-**This section is under construction**
+In the shell, go inside the directory containing Your project and after that run
+needed make command. Here are all possible variants.
+
+- **make** or **make compile** will create `build` folder inside Your project's
+  dir and compile all source code inside it:
+  - Arduino core libraries will compile to *libarduino.a*;
+  - external libraries (that You're downloaded from Github for example) - to
+    *liblibrary.a* (there is even no changes in sources of that libraries
+    needed, nor some additional makefiles);
+  - project itself will be compiled to *my-sketch_project.o* (here "my-sketch"
+    will be substituted with name of the project).
+  - all this will be linked and transformed into resulting *.hex* file (that You
+    can download to Your board with any programmer You wish).
+  - Also there will be many *.lst* files that can be used for debugging. They
+    contain description of assembler code generated for each compiled object
+    file.
+- **make upload** will compile entire project (if that was not done yet) and
+  upload resulting *.hex* into Arduino board.
+- **make clean** will remove *build* folder with all of it's contents.
+- **make monitor** will run the monitoring of serial port's output in the
+    terminal window. Its functionality almost the same as of port monitor in the
+    Arduino IDE. Any key that You press generates symbol that is sent
+    immediately to serial port, and all data received from that port appears as
+    symbols on the screen.
+    It uses shell `screen` command, so all basic commands for the terminal
+    consists of pressing `<Ctrl-a>` and then a key that coresponds to some
+    command. After calling the monitor You can use such commands:
+    - press `<Ctrl-a> \` and then `y` to exit from terminal;
+    - press `<Ctrl-a> ?` to show list of all available commands.
+- **make upload_monitor** will compile the project (if it wasn't compilled yet),
+    upload firmware to the Arduino board and run port monitor.
+
