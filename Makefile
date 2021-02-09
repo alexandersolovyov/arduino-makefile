@@ -125,12 +125,14 @@ ifeq ($(shell test $(ARD_REV) -lt "0018"; echo $$?), 0)
     ARD_MAIN = $(ARD_SRC_DIR)/main.cxx
     SKT_PROJECT_SRC := $(firstword $(wildcard *.pde))
     ARD_MAIN_HEADER = WProgram.h
+    ARD_BOOTLOADERS_DIR = $(ARD_HOME)/hardware/bootloaders
 endif
 #  version >= 0018
 ifeq ($(shell test $(ARD_REV) -ge "0018"; echo $$?), 0)
     ARD_BOARDS = $(ARD_HOME)/hardware/arduino/boards.txt
     ARD_SRC_DIR = $(ARD_HOME)/hardware/arduino/cores/arduino
     ARD_MAIN = $(ARD_SRC_DIR)/main.cpp
+    ARD_BOOTLOADERS_DIR = $(ARD_HOME)/hardware/arduino/bootloaders
 endif
 #  version >= 0022
 ifeq ($(shell test $(ARD_REV) -ge "0022"; echo $$?), 0)
@@ -183,6 +185,21 @@ UPLOAD_SPEED := \
 # board variant
 VARIANT := \
     $(shell sed -n 's/$(BOARD)\.build\.variant=\(.*\)/\1/p' < $(ARD_BOARDS))
+# Bootloader data
+BOOTLOADER_FILE := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.file=\(.*\)/\1/p' < $(ARD_BOARDS))
+BOOTLOADER_FILE := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.path=\(.*\)/\1/p' < $(ARD_BOARDS))/$(BOOTLOADER_FILE)
+BOOTLOADER_LFUSE := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.low_fuses=\(.*\)/\1/p' < $(ARD_BOARDS))
+BOOTLOADER_HFUSE := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.high_fuses=\(.*\)/\1/p' < $(ARD_BOARDS))
+BOOTLOADER_EFUSE := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.extended_fuses=\(.*\)/\1/p' < $(ARD_BOARDS))
+BOOTLOADER_UNLK := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.unlock_bits=\(.*\)/\1/p' < $(ARD_BOARDS))
+BOOTLOADER_LK := \
+    $(shell sed -n 's/$(BOARD)\.bootloader\.lock_bits=\(.*\)/\1/p' < $(ARD_BOARDS))
 
 # Build tools.
 CC = $(ARD_BIN)/avr-gcc
