@@ -107,7 +107,6 @@ MON_SPEED ?= 9600
 
 #TODO:
 #- Make AVRDUDE_CONF variable optional
-#- Add ability to program the bootloader
 
 # Check for the required definitions.
 ifndef BOARD
