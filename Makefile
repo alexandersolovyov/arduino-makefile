@@ -403,6 +403,10 @@ upload_monitor : upload monitor
 
 bootloader :
 	@ $(ECHO) "Writing the bootloader..."
+	@ $(ECHO) "NOTE:"
+	@ $(ECHO) "Bootloader can be properly written only via ISP !"
+	@ $(ECHO) "If trying to write via bootloader or JTAG -"
+	@ $(ECHO) "it may erase the chip and definitely will fail all other operations!"
 	@ $(ECHO) ""
 	$(kill-monitor)
 	@ $(ECHO) "Erase and unlock chip:"
