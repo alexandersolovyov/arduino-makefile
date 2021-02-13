@@ -37,7 +37,7 @@ or Vim. This makefile can help You to more easily set up Your favorite
 environment to code for Arduino.
 
 Another case is when Arduino IDE installed with system's package manager is a
-littlebit buggy and needs to many efforts to make it work properly. This
+littlebit buggy and needs too many efforts to make it work properly. This
 makefile is usually very easy to install.
 
 Although in fact, You maybe don't need this makefile under Windows: many Windows
