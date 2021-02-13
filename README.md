@@ -19,13 +19,12 @@ Arduino.
 Current makefile is a reworked version of the file that was written by Alan
 Burlison at 2011.
 You can see it on [his site](http://bleaklow.com/2010/06/04/a_makefile_for_arduino_sketches.html).
+Some other people have already created modifications of this file. So You can
+find them in the Internet by searching words "arduino makefile master", if You
+interested.
 
 You can use current makefile with no limitations.
 I would be grateful if You help me to improve this makefile.
-
-Some people have already created modifications of this file. So You can find
-them in the Internet by searching words "arduino makefile master", if You
-interested.
 
 What is this all needed for
 ---------------------------
