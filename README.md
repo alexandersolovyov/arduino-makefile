@@ -272,15 +272,15 @@ needed make command. Here are all possible variants.
   upload resulting *.hex* into Arduino board.
 - **make clean** will remove *build* folder with all of it's contents.
 - **make monitor** will run the monitoring of serial port's output in the
-    terminal window. Its functionality almost the same as of port monitor in the
-    Arduino IDE. Any key that You press generates symbol that is sent
-    immediately to serial port, and all data received from that port appears as
-    symbols on the screen.
-    It uses shell `screen` command, so all basic commands for the terminal
-    consists of pressing `<Ctrl-a>` and then a key that coresponds to some
-    command. After calling the monitor You can use such commands:
-    - press `<Ctrl-a> \` and then `y` to exit from terminal;
-    - press `<Ctrl-a> ?` to show list of all available commands.
+  terminal window. Its functionality almost the same as of port monitor in the
+  Arduino IDE. Any key that You press generates symbol that is sent
+  immediately to serial port, and all data received from that port appears as
+  symbols on the screen.
+  It uses shell `screen` command, so all basic commands for the terminal
+  consists of pressing `<Ctrl-a>` and then a key that coresponds to some
+  command. After calling the monitor You can use such commands:
+  - press `<Ctrl-a> \` and then `y` to exit from terminal;
+  - press `<Ctrl-a> ?` to show list of all available commands.
 - **make upload_monitor** will compile the project (if it wasn't compilled yet),
     upload firmware to the Arduino board and run port monitor.
 - **make bootloader** will erase all chip memories and write the proper
