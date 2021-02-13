@@ -285,5 +285,6 @@ needed make command. Here are all possible variants.
     upload firmware to the Arduino board and run port monitor.
 - **make bootloader** will erase all chip memories and write the proper
   bootloader for selected board. Default fuses for that arduino board also will
-  be written.
+  be written. Note that bootloader may be properly written only with ISP
+  programmer.
 
