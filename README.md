@@ -9,6 +9,7 @@ IDE.
 
 For now, it is tested only with Arduino IDE 0106, but probably will work good
 for all older versions and some newer ones.
+(Writing of bootloader is a new feature and not tested yet.)
 
 There are also some more complete (and more complex) make systems for Arduino, such as
 [Arduino-Makefile](https://github.com/sudar/Arduino-Makefile). You may find it
@@ -282,4 +283,7 @@ needed make command. Here are all possible variants.
     - press `<Ctrl-a> ?` to show list of all available commands.
 - **make upload_monitor** will compile the project (if it wasn't compilled yet),
     upload firmware to the Arduino board and run port monitor.
+- **make bootloader** will erase all chip memories and write the proper
+  bootloader for selected board. Default fuses for that arduino board also will
+  be written.
 
