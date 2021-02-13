@@ -324,7 +324,7 @@ define run-cxx
 endef
 
 # Rules.
-.PHONY : compile clean upload monitor upload_monitor
+.PHONY : compile clean upload monitor upload_monitor bootloader
 
 compile : $(BUILD_DIR) $(IMAGE).hex
 	@ $(ECHO) ""
@@ -400,6 +400,27 @@ monitor :
 	$(run-monitor)
 
 upload_monitor : upload monitor
+
+bootloader :
+	@ $(ECHO) "Writing the bootloader..."
+	@ $(ECHO) ""
+	$(kill-monitor)
+	@ $(ECHO) "Erase and unlock chip:"
+	$(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
+	    -b$(UPLOAD_SPEED) -F -e -Ulock:w:$(BOOTLOADER_UNLK):m
+	@ $(ECHO) "Write bootloader:"
+	$(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
+	    -b$(UPLOAD_SPEED) -D -Uflash:w:$(ARD_BOOTLOADERS_DIR)/$(BOOTLOADER_FILE)
+	@ $(ECHO) "Write fuses:"
+	$(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
+	    -b$(UPLOAD_SPEED) -Ulfuse:w:$(BOOTLOADER_LFUSE):m
+	- $(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
+	    -b$(UPLOAD_SPEED) -Uhfuse:w:$(BOOTLOADER_HFUSE):m
+	- $(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
+	    -b$(UPLOAD_SPEED) -Uefuse:w:$(BOOTLOADER_EFUSE):m
+	@ $(ECHO) "Lock access of a program to bootloader:"
+	$(AVRDUDE) -V -C$(AVRDUDE_CONF) -p$(MCU) -c$(PROGRAMMER) -P$(PORT) \
+	    -b$(UPLOAD_SPEED) -Ulock:w:$(BOOTLOADER_LK):m
 
 -include $(wildcard $(BUILD_DIR)/.*.dep))
 
